@@ -1,6 +1,6 @@
 // Load saved counts on page load
 window.onload = function() {
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 9; i++) {
         let count = localStorage.getItem(`dua${i}`) || 0;
         document.getElementById(`count${i}`).textContent = count;
     }
