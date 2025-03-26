@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dua Counter</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --text-color: #333;
+            --bg-color: #fff;
+            --card-bg: #f9f9f9;
+            --border-color: #ccc;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #45a049;
+            --text-color: #fff;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .dua-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dua-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+
+        .dua-header span {
+            flex: 1;
+            min-width: 0;
+            white-space: normal;
+            margin-right: 15px;
+        }
+
+        .counter {
+            font-size: 1.8em;
+            margin: 0 15px;
+            color: var(--primary-color);
+        }
+
+        .edit-input {
+            display: none;
+            width: 60px;
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary-color);
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .collapse-btn {
+            padding: 8px;
+            min-width: 40px;
+            background: transparent;
+            color: var(--text-color);
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .collapse-btn.expanded {
+            transform: rotate(180deg);
+        }
+
+        #addAll {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 25px;
+            font-size: 1.1em;
+        }
+
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+        }
+
+        .dua-content {
+            display: none;
+            padding: 15px;
+            margin-top: 15px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            line-height: 1.6;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .dua-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .dua-header span {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .controls {
+                justify-content: flex-start;
+            }
+            .counter {
+                font-size: 1.5em;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+<button id="themeToggle" onclick="toggleTheme()">Dark Mode</button>
+<h1>Dua Counter - Қадір түні</h1>
+
+<div id="duas">
+    <div class="dua-container">
+        <div class="dua-header">
+            <span>1. Ықлас</span>
+            <div class="controls">
+                <span class="counter" id="count1">0</span>
+                <button onclick="increment(1, event)">+1</button>
+                <button onclick="toggleEdit(1, event)">Edit</button>
+                <input type="number" class="edit-input" id="edit1" min="0">
+                <button onclick="saveEdit(1, event)" class="edit-input">Save</button>
+                <button class="collapse-btn" onclick="toggleContent(1, this)">▼</button>
+            </div>
+        </div>
+        <div class="dua-content" id="content1">
+            <p>Бисмилләһир рахмәнир рахим. Қуль һу уаллаһу аһаді. Аллаһус самаді. Ләм иәлиді, уә ләм иуләді. Уә ләм иәкуль ләһу куфууән ахаді.</p>
+            <p>Ықлас сүресінің қазақша мағынасы: «Алла біреу ақ. Алла мұңсыз. (әр Нәрсе Оған Мұқтаж). Ол тумады да туылмады. Әрі Оған ешкім тең емес»</p>
+        </div>
+    </div>
+
+    <div class="dua-container">
+        <div class="dua-header">
+            <span>2. Қадыр сүресі</span>
+            <div class="controls">
+                <span class="counter" id="count2">0</span>
+                <button onclick="increment(2, event)">+1</button>
+                <button onclick="toggleEdit(2, event)">Edit</button>
+                <input type="number" class="edit-input" id="edit2" min="0">
+                <button onclick="saveEdit(2, event)" class="edit-input">Save</button>
+                <button class="collapse-btn" onclick="toggleContent(2, this)">▼</button>
+            </div>
+        </div>
+        <div class="dua-content" id="content2">
+            <p>Бисмилләһир рахманир рахим. Иннә әңзәлнәһу фи ләйләтил қадыр. Уә мә әдракә мә ләйләтул қадыр. Ләйләтул қадри хайрум минәл фи шәһр. Тәнәззәлул мәләикәту уәр руху фи һә биизни раббиһим мин кулли әмр. Сәләмун һиә хатта мәт ләғил фәжр.</p>
+            <p>Қадір сүренің қазақша мағынасы: «1. Біз Оны (Құранды) қадір түні түсірдік. 2. Қадір түнінің не екенін білесің бе? (Аллаһ Тағала білдірмесе) қайдан білесің? 3. Қадір түні мың айдан да артық. 4. Ол түні Аллаһтың рұқсатымен кез-келген іс үшін Рух пен періштелер түседі. 5. (әсіресе ол түнді ғибадатпен өткізгендер үшін) таң атқанға дейін Аллаһтың рақымы мен есендігі жауады».</p>
+        </div>
+    </div>
+
+    <div class="dua-container">
+        <div class="dua-header">
+            <span>3. Лә иләһә иллаллаһ, Мухаммәдур расулуллаһ</span>
+            <div class="controls">
+                <span class="counter" id="count3">0</span>
+                <button onclick="increment(3, event)">+1</button>
+                <button onclick="toggleEdit(3, event)">Edit</button>
+                <input type="number" class="edit-input" id="edit3" min="0">
+                <button onclick="saveEdit(3, event)" class="edit-input">Save</button>
+                <button class="collapse-btn" onclick="toggleContent(3, this)">▼</button>
+            </div>
+        </div>
+        <div class="dua-content" id="content3">
+            Қазақша мағынасы: Алладан басқа Тәңір жоқ, Мұхаммед оның елшісі.
+        </div>
+    </div>
+
+    <div class="dua-container">
+        <div class="dua-header">
+            <span>4. Әшһәду әллә иләһә иллаллаһ, уә әшһәду әннә Мухаммәдән ғабдуһу уә расулуһ</span>
+            <div class="controls">
+                <span class="counter" id="count4">0</span>
+                <button onclick="increment(4, event)">+1</button>
+                <button onclick="toggleEdit(4, event)">Edit</button>
+                <input type="number" class="edit-input" id="edit4" min="0">
+                <button onclick="saveEdit(4, event)" class="edit-input">Save</button>
+                <button class="collapse-btn" onclick="toggleContent(4, this)">▼</button>
+            </div>
+        </div>
+        <div class="dua-content" id="content4">
+            Қазақшасы: Алладан басқа ешбір тәңір жоқ және Мухаммед Оның Елшісі және құлы екендігіне куәлік беремін.
+        </div>
+    </div>
+
+    <div class="dua-container">
+        <div class="dua-header">
+            <span>5. Астәғфируллуһ – 500 рет</span>
+            <div class="controls">
+                <span class="counter" id="count5">0</span>
+                <button onclick="increment(5, event)">+1</button>
+                <button onclick="toggleEdit(5, event)">Edit</button>
+                <input type="number" class="edit-input" id="edit5" min="0">
+                <button onclick="saveEdit(5, event)" class="edit-input">Save</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="dua-container">
+        <div class="dua-header">
+            <span>6. Лә иләһә иллаллаһ уахдәһу лә шарикәләһ, ләһул мулку уә ләһул хамду, уә һуә ғалә кулли шәйин қадиир</span>
+            <div class="controls">
+                <span class="counter" id="count6">0</span>
+                <button onclick="increment(6, event)">+1</button>
+                <button onclick="toggleEdit(6, event)">Edit</button>
+                <input type="number" class="edit-input" id="edit6" min="0">
+                <button onclick="saveEdit(6, event)" class="edit-input">Save</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="dua-container">
+        <div class="dua-header">
+            <span>Алладан материалдық байлық, тура жол, тақуалық және жан байлығын сұрайтын дұға</span>
+            <div class="controls">
+                <span class="counter" id="count7">0</span>
+                <button onclick="increment(7, event)">+1</button>
+                <button onclick="toggleEdit(7, event)">Edit</button>
+                <input type="number" class="edit-input" id="edit7" min="0">
+                <button onclick="saveEdit(7, event)" class="edit-input">Save</button>
+                <button class="collapse-btn" onclick="toggleContent(7, this)">▼</button>
+            </div>
+        </div>
+        <div class="dua-content" id="content7">
+            <p>«Аллаһумма, инни әсәлукәл-һуда, уәт-туқа, уәл-ъафафә уәл-ғина».</p>
+            <p>«Я, Алла, расында, мен Сенен тура жолды, тақуалықты, (күнә мен жаман қылықтардан) пәк, таза болуды және байлықты сұраймын». (Муслим)</p>
+        </div>
+    </div>
+</div><div class="dua-container">
+    <div class="dua-header">
+            <span>Қадір түнінде оқылатын арнайы дұға </span>
+        <div class="controls">
+            <span class="counter" id="count8">0</span>
+            <button onclick="increment(8, event)">+1</button>
+            <button onclick="toggleEdit(8, event)">Өзгерту</button>
+            <input type="number" class="edit-input" id="edit8" min="0">
+            <button onclick="saveEdit(8, event)" class="edit-input">Сақтау</button>
+            <button class="collapse-btn" onclick="toggleContent(8, this)">▼</button>
+        </div>
+    </div>
+    <div class="dua-content" id="content8">
+        <p>«Аллаһуммә иннәкә Ъафуун, тухиббул-ъафуа фаъфу-ъанни».</p>
+        «Я, Алла, расында, Сен – Кешірімдісің, кешіруді жақсы көресің. Мені кешіре гөр!», деп айт деп үйретеді. (Тирмизи, Ибн Мәжаһ, Хаким).
+    </div>
+</div>
+<div class="dua-container">
+    <div class="dua-header">
+        <span>Алладан күнә-қателіктеріңізге кешірім сұрау дұғасы </span>
+        <div class="controls">
+            <span class="counter" id="count9">0</span>
+            <button onclick="increment(9, event)">+1</button>
+            <button onclick="toggleEdit(9, event)">Өзгерту</button>
+            <input type="number" class="edit-input" id="edit9" min="0">
+            <button onclick="saveEdit(9, event)" class="edit-input">Сақтау</button>
+            <button class="collapse-btn" onclick="toggleContent(9, this)">▼</button>
+        </div>
+    </div>
+    <div class="dua-content" id="content9">
+        <p>«Аллаһуммә, инни заләмту нәфси зулмән кәсиран уә лә яғфируз-зунуубә иллә Әнтә. Фағфир ли мәғфиратән мин ъиндикә уәрхамни, иннәкә Әнтәл-Ғафурур-Рахим!»</p>
+        «Я, Алла! Шын мәнінде, мен өзіме аса көп зұлымдық жасадым. Күнәларды кешіретін Өзіңнен басқа ешкім жоқ. Өз жарылқауыңмен мені кешір де, маған рақым ет. Расында, Сен аса Жарылқаушы, ерекше Рахымдысың!». (Бухари, Муслим)
+    </div>
+</div>
+<button id="addAll" onclick="incrementAll()">Add 1 to All</button>
+
+<script src="index.js">
+
+</script>
+</body>
+</html>
