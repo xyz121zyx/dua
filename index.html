@@ -6,99 +6,129 @@
     <title>Dua Counter</title>
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --text-color: #333;
-            --bg-color: #fff;
-            --card-bg: #f9f9f9;
-            --border-color: #ccc;
+            --primary-color: #2ecc71;
+            --primary-hover: #27ae60;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #e9ecef;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
         }
 
         [data-theme="dark"] {
-            --primary-color: #45a049;
-            --text-color: #fff;
+            --primary-color: #2ecc71;
+            --primary-hover: #27ae60;
+            --text-color: #ecf0f1;
             --bg-color: #1a1a1a;
             --card-bg: #2d2d2d;
-            --border-color: #444;
+            --border-color: #404040;
+            --shadow-color: rgba(0, 0, 0, 0.3);
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            max-width: 900px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px 20px;
             background: var(--bg-color);
             color: var(--text-color);
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
+            line-height: 1.6;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 40px;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px var(--shadow-color);
         }
 
         .dua-container {
-            margin: 20px 0;
-            padding: 15px;
+            margin: 25px 0;
+            padding: 20px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             background: var(--card-bg);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .dua-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow-color);
         }
 
         .dua-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px;
+            padding: 12px;
             font-weight: 600;
             flex-wrap: wrap;
+            font-size: 1.1em;
         }
 
         .dua-header span {
             flex: 1;
             min-width: 0;
             white-space: normal;
-            margin-right: 15px;
+            margin-right: 20px;
+            color: var(--text-color);
         }
 
         .counter {
-            font-size: 1.8em;
-            margin: 0 15px;
+            font-size: 2em;
+            margin: 0 20px;
             color: var(--primary-color);
+            font-weight: 700;
         }
 
         .edit-input {
             display: none;
-            width: 60px;
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
+            width: 70px;
+            padding: 8px;
+            border-radius: 6px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1em;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .edit-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
         }
 
         button {
-            padding: 8px 15px;
+            padding: 10px 20px;
             margin: 0 5px;
             cursor: pointer;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             background: var(--primary-color);
             color: white;
-            transition: background 0.3s ease;
+            font-weight: 600;
+            transition: all var(--transition-speed) ease;
+            font-size: 0.95em;
         }
 
         button:hover {
-            background: #45a049;
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         .collapse-btn {
-            padding: 8px;
+            padding: 10px;
             min-width: 40px;
             background: transparent;
             color: var(--text-color);
             font-size: 1.2em;
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-speed) ease;
         }
 
         .collapse-btn.expanded {
@@ -107,41 +137,53 @@
 
         #addAll {
             display: block;
-            margin: 30px auto;
-            padding: 12px 25px;
-            font-size: 1.1em;
+            margin: 40px auto;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
 
         #themeToggle {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 8px 15px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            z-index: 1000;
         }
 
         .dua-content {
             display: none;
-            padding: 15px;
+            padding: 20px;
             margin-top: 15px;
             background: var(--card-bg);
             border-top: 1px solid var(--border-color);
-            border-radius: 0 0 8px 8px;
-            line-height: 1.6;
+            border-radius: 0 0 12px 12px;
+            line-height: 1.8;
+            font-size: 1.1em;
         }
 
         .controls {
             display: flex;
             align-items: center;
             flex-shrink: 0;
+            gap: 8px;
         }
 
         @media (max-width: 600px) {
             body {
-                padding: 10px;
+                padding: 15px;
             }
             .dua-header {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 10px;
             }
             .dua-header span {
                 margin-right: 0;
@@ -149,12 +191,17 @@
             }
             .controls {
                 justify-content: flex-start;
+                flex-wrap: wrap;
             }
             .counter {
-                font-size: 1.5em;
+                font-size: 1.8em;
             }
             h1 {
-                font-size: 1.8em;
+                font-size: 2em;
+            }
+            button {
+                padding: 8px 15px;
+                font-size: 0.9em;
             }
         }
     </style>
